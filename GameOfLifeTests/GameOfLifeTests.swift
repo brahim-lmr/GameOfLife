@@ -14,7 +14,7 @@ final class GameOfLifeTests: XCTestCase {
 
     override func setUp() {
         sut = Game(
-            numberOfRows: 3,
+            numberOfRows: 6,
             numberOfColums: 6
         )
     }
@@ -25,5 +25,20 @@ final class GameOfLifeTests: XCTestCase {
     
     func testPrintingGrid() {
         sut.printGrid()
+    }
+    
+    
+    func test_isValidPositionInGrid() {
+        // GIVEN
+        let position1: Position = (x:1, y: 3)
+        let position2: Position = (x:7, y: 1)
+        let position3: Position = (x:2, y: 7)
+        let position4: Position = (x:7, y: 7)
+
+        // THEN
+        XCTAssertTrue(sut.isValid(position1))
+        XCTAssertFalse(sut.isValid(position2))
+        XCTAssertFalse(sut.isValid(position3))
+        XCTAssertFalse(sut.isValid(position4))
     }
 }

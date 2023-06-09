@@ -9,6 +9,7 @@ import Foundation
 
 fileprivate typealias Row = [Cell]
 fileprivate typealias Grid = [Row]
+typealias Position = (x: UInt, y: UInt)
 
 final class Game {
     
@@ -21,6 +22,12 @@ final class Game {
         self.numberOfRows = numberOfRows
         self.numberOfColums = numberOfColums
         grid = createGrid()
+    }
+    
+    func isValid(_ position: Position) -> Bool {
+        position.x < numberOfRows
+        &&
+        position.y < numberOfColums
     }
 }
 
