@@ -45,10 +45,10 @@ final class Game {
         grid[position.x][position.y].state = state
     }
     
-    func areNeighbours(rhd: Cell, lhd: Cell) -> Bool {
+    func areNeighbors(rhd: Cell, lhd: Cell) -> Bool {
         if rhd == lhd { return false }
         
-        // Two cell are neighbourds if
+        // Two cell are neighbors if
         // the offset between x axis is 1 or 0
         // and the offset between y axis is 1 or 0
         
@@ -65,7 +65,7 @@ final class Game {
         
         return  grid
             .flatMap { $0 }
-            .filter { areNeighbours(rhd: $0, lhd: cell) }
+            .filter { areNeighbors(rhd: $0, lhd: cell) }
     }
     
     func getAliveNeighbordForCell(at position: Position) -> [Cell] {
@@ -79,9 +79,7 @@ final class Game {
             .filter { cell in
                 isReproductionCondition(cell)
                 ||
-                isOverpupulationCondition(cell)
-                ||
-                isUnderpopulationCondition(cell)
+                isOverpupulationOrUnderpopulationCondition(cell)
             }
             .map { cell in
                 grid[cell.x][cell.y].state.toggle()
@@ -92,21 +90,25 @@ final class Game {
     /// it becomes alive (reproduction).
     lazy var isReproductionCondition = { (cell: Cell) -> Bool in
         
-        return (cell.state == .dead) && (self.getAliveNeighbordForCell(at:  cell.position).count == 3)
+        return (cell.state == .dead)
+        &&
+        (
+            self.getAliveNeighbordForCell(at:  cell.position).count == 3
+        )
     }
     
-    /// If a living cell has more than three living neighbors,
-    /// it dies (overpopulation).
-    lazy var isOverpupulationCondition = { (cell: Cell) -> Bool in
+    /// If a living cell has more than three living neighbors, it dies (overpopulation).
+    /// Or
+    /// If a living cell has fewer than two living neighbors, it dies (underpopulation).
+    lazy var isOverpupulationOrUnderpopulationCondition = { (cell: Cell) -> Bool in
         
-        return (cell.state == .alive) && (self.getAliveNeighbordForCell(at:  cell.position).count > 3)
-    }
-    
-    /// If a living cell has fewer than two living neighbors,
-    /// it dies (underpopulation).
-    lazy var isUnderpopulationCondition = { (cell: Cell) -> Bool in
-        
-        return (cell.state == .alive) && (self.getAliveNeighbordForCell(at:  cell.position).count < 2)
+        return (cell.state == .alive)
+        &&
+        (
+            self.getAliveNeighbordForCell(at:  cell.position).count > 3
+            ||
+            self.getAliveNeighbordForCell(at:  cell.position).count < 2
+        )
     }
 }
 

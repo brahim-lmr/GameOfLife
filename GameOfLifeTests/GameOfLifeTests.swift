@@ -66,7 +66,7 @@ final class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(cell.state, .alive)
     }
     
-    func test_ifTwoCellAreNeighbourds() {
+    func test_ifTwoCellareNeighbors() {
         // GIVEN
         let cell = Cell(x: 2, y: 2)
         
@@ -83,21 +83,21 @@ final class GameOfLifeTests: XCTestCase {
         let cell10 = Cell(x: 1, y: 4)
 
         // THEN
-        XCTAssertTrue(sut.areNeighbours(rhd: cell, lhd: cell1))
-        XCTAssertTrue(sut.areNeighbours(rhd: cell, lhd: cell2))
-        XCTAssertTrue(sut.areNeighbours(rhd: cell, lhd: cell3))
-        XCTAssertTrue(sut.areNeighbours(rhd: cell, lhd: cell4))
-        XCTAssertTrue(sut.areNeighbours(rhd: cell, lhd: cell6))
-        XCTAssertTrue(sut.areNeighbours(rhd: cell, lhd: cell7))
-        XCTAssertTrue(sut.areNeighbours(rhd: cell, lhd: cell8))
-        XCTAssertTrue(sut.areNeighbours(rhd: cell, lhd: cell9))
+        XCTAssertTrue(sut.areNeighbors(rhd: cell, lhd: cell1))
+        XCTAssertTrue(sut.areNeighbors(rhd: cell, lhd: cell2))
+        XCTAssertTrue(sut.areNeighbors(rhd: cell, lhd: cell3))
+        XCTAssertTrue(sut.areNeighbors(rhd: cell, lhd: cell4))
+        XCTAssertTrue(sut.areNeighbors(rhd: cell, lhd: cell6))
+        XCTAssertTrue(sut.areNeighbors(rhd: cell, lhd: cell7))
+        XCTAssertTrue(sut.areNeighbors(rhd: cell, lhd: cell8))
+        XCTAssertTrue(sut.areNeighbors(rhd: cell, lhd: cell9))
         
-        XCTAssertFalse(sut.areNeighbours(rhd: cell, lhd: cell5))
-        XCTAssertFalse(sut.areNeighbours(rhd: cell, lhd: cell10))
+        XCTAssertFalse(sut.areNeighbors(rhd: cell, lhd: cell5))
+        XCTAssertFalse(sut.areNeighbors(rhd: cell, lhd: cell10))
 
     }
     
-    func test_getNeighbourdsForMiddleCell_shouldBeEight() {
+    func test_getNeighborsForMiddleCell_shouldBeEight() {
 
         // GIVEN
         let position: Position = (x:2, y: 2)
@@ -108,7 +108,7 @@ final class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(cells.count, 8)
     }
     
-    func test_getNeighbourdsForCornerCell_shouldBeThree()  {
+    func test_getNeighborsForCornerCell_shouldBeThree()  {
 
         // GIVEN
         let position: Position = (x:0, y: 0)
@@ -119,7 +119,7 @@ final class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(cells.count, 3)
     }
     
-    func test_getNeighbourdsForEdgeCell_shouldBeFive()  {
+    func test_getNeighborsForEdgeCell_shouldBeFive()  {
 
         // GIVEN
         let position: Position = (x:0, y: 1)
@@ -130,7 +130,7 @@ final class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(cells.count, 5)
     }
     
-    func test_getNeighbourdsForNoExistingCell_shouldBeZero()  {
+    func test_getNeighborsForNoExistingCell_shouldBeZero()  {
 
         // GIVEN
         let position: Position = (x:-1, y: -1)
@@ -141,7 +141,7 @@ final class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(cells.count, .zero)
     }
     
-    func test_getLivingNeighboursForCell_ShouldBeZeroInEmptyGameGrid() {
+    func test_getLivingNeighborsForCell_ShouldBeZeroInEmptyGameGrid() {
 
         // GIVEN
         let position: Position = (x:2, y: 3)
@@ -152,7 +152,7 @@ final class GameOfLifeTests: XCTestCase {
         
     }
     
-    func test_foundOneLivingNeighbours() {
+    func test_foundOneLivingNeighbors() {
         
         // GIVEN
         
@@ -168,7 +168,7 @@ final class GameOfLifeTests: XCTestCase {
         
     }
     
-    func test_foundTwoLivingNeighbours() {
+    func test_foundTwoLivingNeighbors() {
         
         // GIVEN
         
@@ -187,7 +187,7 @@ final class GameOfLifeTests: XCTestCase {
     }
     
     // REPRODUTION
-    func test_deadCellWithThreeNeighbours_getsAlive() {
+    func test_deadCellWithThreeNeighbors_getsAlive() {
         
         // GIVEN
         sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
@@ -209,7 +209,7 @@ final class GameOfLifeTests: XCTestCase {
     }
     
     // OVERPOPULATION
-    func test_cellWithMoreThanThreeLivedNeighbours_dies() {
+    func test_cellWithMoreThanThreeLivedNeighbors_dies() {
         
         // GIVEN
         sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
@@ -234,7 +234,7 @@ final class GameOfLifeTests: XCTestCase {
     }
     
     // UNDERPOPULATION
-    func test_cellWithLessThanTwoLivedNeighbours_dies() {
+    func test_cellWithLessThanTwoLivedNeighbors_dies() {
         
         // GIVEN
         sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
@@ -255,7 +255,7 @@ final class GameOfLifeTests: XCTestCase {
         sut.printGrid()
     }
     
-    func test_cellWithTwoLivedNeighbours_lives() {
+    func test_cellWithTwoLivedNeighbors_lives() {
         
         // GIVEN
         sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
@@ -276,7 +276,7 @@ final class GameOfLifeTests: XCTestCase {
         sut.printGrid()
     }
     
-    func test_cellWithThreeLivedNeighbours_lives() {
+    func test_cellWithThreeLivedNeighbors_lives() {
         
         // GIVEN
         sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
