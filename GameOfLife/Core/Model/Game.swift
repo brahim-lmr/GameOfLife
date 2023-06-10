@@ -80,6 +80,8 @@ final class Game {
                 isReproductionCondition(cell)
                 ||
                 isOverpupulationCondition(cell)
+                ||
+                isUnderpopulationCondition(cell)
             }
             .map { cell in
                 grid[cell.x][cell.y].state.toggle()
@@ -98,6 +100,13 @@ final class Game {
     lazy var isOverpupulationCondition = { (cell: Cell) -> Bool in
         
         return (cell.state == .alive) && (self.getAliveNeighbordForCell(at:  cell.position).count > 3)
+    }
+    
+    /// If a living cell has fewer than two living neighbors,
+    /// it dies (underpopulation).
+    lazy var isUnderpopulationCondition = { (cell: Cell) -> Bool in
+        
+        return (cell.state == .alive) && (self.getAliveNeighbordForCell(at:  cell.position).count < 2)
     }
 }
 

@@ -211,6 +211,7 @@ final class GameOfLifeTests: XCTestCase {
     // OVERPOPULATION
     func test_cellWithMoreThanThreeLivedNeighbours_dies() {
         
+        // GIVEN
         sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
         sut.changeStateOfCellAt(position: (x:0, y: 4), to: .alive)
         sut.changeStateOfCellAt(position: (x:0, y: 5), to: .alive)
@@ -219,11 +220,35 @@ final class GameOfLifeTests: XCTestCase {
 
         sut.printGrid()
 
+        // WHEN
         sut.computeNextGeneration()
 
         let cell1 = sut.getCell(at: (x: 0, y: 4))
         let cell2 = sut.getCell(at: (x: 1, y: 4))
 
+        // THEN
+        XCTAssertEqual(cell1?.state, .dead)
+        XCTAssertEqual(cell2?.state, .dead)
+
+        sut.printGrid()
+    }
+    
+    // UNDERPOPULATION
+    func test_cellWithLessThanTwoLivedNeighbours_dies() {
+        
+        // GIVEN
+        sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
+        sut.changeStateOfCellAt(position: (x:1, y: 4), to: .alive)
+      
+        sut.printGrid()
+
+        // WHEN
+        sut.computeNextGeneration()
+
+        let cell1 = sut.getCell(at: (x: 0, y: 3))
+        let cell2 = sut.getCell(at: (x: 1, y: 4))
+
+        // THEN
         XCTAssertEqual(cell1?.state, .dead)
         XCTAssertEqual(cell2?.state, .dead)
 
