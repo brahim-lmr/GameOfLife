@@ -57,16 +57,13 @@ final class GameOfLifeTests: XCTestCase {
     
     func test_stateOfCellShouldBeChanged() {
         // GIVEN
-        var cell1 = Cell(x: 1, y: 2, state: .alive)
-        var cell2 = Cell(x: 1, y: 2, state: .dead)
+        let position: Position = (x:1, y: 2)
 
         // WHEN
-        cell1.switchState()
-        cell2.switchState()
-
+        sut.changeStateOfCellAt(position: position, to: .alive)
+        let cell = sut.getCell(at: position)!
         // THEN
-        XCTAssertEqual(cell1.state, .dead)
-        XCTAssertEqual(cell2.state, .alive)
+        XCTAssertEqual(cell.state, .alive)
     }
     
     func test_ifTwoCellAreNeighbourds() {

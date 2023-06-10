@@ -36,6 +36,15 @@ final class Game {
         return grid[position.x][position.y]
     }
     
+    func changeStateOfCellAt(
+        position: Position,
+        to state: State
+    ) {
+        guard isValid(position) else { return }
+        
+        grid[position.x][position.y].state = state
+    }
+    
     func areNeighbours(rhd: Cell, lhd: Cell) -> Bool {
         if rhd == lhd { return false }
         

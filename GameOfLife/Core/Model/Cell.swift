@@ -23,14 +23,3 @@ struct Cell: Equatable {
         return lhs.x == rhs.x && lhs.y == rhs.y
     }
 }
-
-extension Cell {
-    mutating func switchState() {
-        switch state {
-        case .alive:
-            state = .dead
-        case .dead:
-            state = .alive
-        }
-    }
-}
