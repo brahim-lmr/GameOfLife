@@ -71,19 +71,19 @@ final class GameOfLifeTests: XCTestCase {
     
     func test_ifTwoCellAreNeighbourds() {
         // GIVEN
-        var cell = Cell(x: 2, y: 2)
+        let cell = Cell(x: 2, y: 2)
         
-        var cell1 = Cell(x: 1, y: 1)
-        var cell2 = Cell(x: 1, y: 2)
-        var cell3 = Cell(x: 1, y: 3)
-        var cell4 = Cell(x: 2, y: 1)
-        var cell5 = Cell(x: 2, y: 2)
-        var cell6 = Cell(x: 2, y: 3)
-        var cell7 = Cell(x: 3, y: 1)
-        var cell8 = Cell(x: 3, y: 2)
-        var cell9 = Cell(x: 3, y: 3)
+        let cell1 = Cell(x: 1, y: 1)
+        let cell2 = Cell(x: 1, y: 2)
+        let cell3 = Cell(x: 1, y: 3)
+        let cell4 = Cell(x: 2, y: 1)
+        let cell5 = Cell(x: 2, y: 2)
+        let cell6 = Cell(x: 2, y: 3)
+        let cell7 = Cell(x: 3, y: 1)
+        let cell8 = Cell(x: 3, y: 2)
+        let cell9 = Cell(x: 3, y: 3)
 
-        var cell10 = Cell(x: 1, y: 4)
+        let cell10 = Cell(x: 1, y: 4)
 
         // THEN
         XCTAssertTrue(sut.areNeighbours(rhd: cell, lhd: cell1))
@@ -98,5 +98,49 @@ final class GameOfLifeTests: XCTestCase {
         XCTAssertFalse(sut.areNeighbours(rhd: cell, lhd: cell5))
         XCTAssertFalse(sut.areNeighbours(rhd: cell, lhd: cell10))
 
+    }
+    
+    func test_getNeighbourdsForMiddleCell_shouldBeEight() {
+
+        // GIVEN
+        let position: Position = (x:2, y: 2)
+        
+        let cells = sut.getNeighborsForCell(at: position)
+        
+        // THEN
+        XCTAssertEqual(cells.count, 8)
+    }
+    
+    func test_getNeighbourdsForCornerCell_shouldBeThree()  {
+
+        // GIVEN
+        let position: Position = (x:0, y: 0)
+        
+        let cells = sut.getNeighborsForCell(at: position)
+        
+        // THEN
+        XCTAssertEqual(cells.count, 3)
+    }
+    
+    func test_getNeighbourdsForEdgeCell_shouldBeFive()  {
+
+        // GIVEN
+        let position: Position = (x:0, y: 1)
+        
+        let cells = sut.getNeighborsForCell(at: position)
+        
+        // THEN
+        XCTAssertEqual(cells.count, 5)
+    }
+    
+    func test_getNeighbourdsForNoExistingCell_shouldBeZero()  {
+
+        // GIVEN
+        let position: Position = (x:-1, y: -1)
+        
+        let cells = sut.getNeighborsForCell(at: position)
+        
+        // THEN
+        XCTAssertEqual(cells.count, .zero)
     }
 }

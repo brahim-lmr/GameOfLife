@@ -50,6 +50,14 @@ final class Game {
 
         return range.contains(xOffset) && range.contains(yOffset)
     }
+    
+    func getNeighborsForCell(at position: Position) -> [Cell] {
+        guard let cell = getCell(at: position) else { return [] }
+        
+        return  grid
+            .flatMap { $0 }
+            .filter { areNeighbours(rhd: $0, lhd: cell) }
+    }
 }
 
 extension Game {
