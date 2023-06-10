@@ -9,34 +9,46 @@ import Foundation
 
 fileprivate typealias Row = [Cell]
 fileprivate typealias Grid = [Row]
-typealias Position = (x: UInt, y: UInt)
+typealias Position = (x: Int, y: Int)
 
 final class Game {
     
-    private var numberOfRows: UInt
-    private var numberOfColums: UInt
+    private var numberOfRows: Int
+    private var numberOfColums: Int
     
     private var grid = Grid()
     
-    init(numberOfRows: UInt, numberOfColums: UInt) {
+    init(numberOfRows: Int, numberOfColums: Int) {
         self.numberOfRows = numberOfRows
         self.numberOfColums = numberOfColums
         grid = createGrid()
     }
     
     func isValid(_ position: Position) -> Bool {
-        position.x < numberOfRows
+        (position.x >= 0 && position.x < numberOfRows)
         &&
-        position.y < numberOfColums
+        (position.y >= 0 && position.y < numberOfColums)
     }
     
     func getCell(at position: Position) -> Cell? {
         guard isValid(position) else { return nil }
         
-        let x = Int(position.x)
-        let y = Int(position.y)
+        return grid[position.x][position.y]
+    }
+    
+    func areNeighbours(rhd: Cell, lhd: Cell) -> Bool {
+        if rhd == lhd { return false }
         
-        return grid[x][y]
+        // Two cell are neighbourds if
+        // the offset between x axis is 1 or 0
+        // and the offset between y axis is 1 or 0
+        
+        let range = [0, 1]
+                
+        let xOffset = abs(rhd.x - lhd.x)
+        let yOffset = abs(rhd.y - lhd.y)
+
+        return range.contains(xOffset) && range.contains(yOffset)
     }
 }
 

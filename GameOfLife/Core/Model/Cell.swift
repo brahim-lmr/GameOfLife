@@ -14,8 +14,8 @@ enum State {
 
 struct Cell: Equatable {
     
-    let x: UInt
-    let y: UInt
+    let x: Int
+    let y: Int
     
     var state: State = .dead
     
