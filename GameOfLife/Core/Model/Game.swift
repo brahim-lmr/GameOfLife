@@ -77,15 +77,27 @@ final class Game {
         _ = grid
             .flatMap { $0 }
             .filter { cell in
-                // 1. If a dead cell has exactly three living neighbors,
-                // it becomes alive (reproduction).
-                (cell.state == .dead)
-                &&
-                (getAliveNeighbordForCell(at:  cell.position).count == 3)
+                isReproductionCondition(cell)
+                ||
+                isOverpupulationCondition(cell)
             }
             .map { cell in
-                grid[cell.x][cell.y].state = .alive
+                grid[cell.x][cell.y].state.toggle()
             }
+    }
+    
+    /// If a dead cell has exactly three living neighbors,
+    /// it becomes alive (reproduction).
+    lazy var isReproductionCondition = { (cell: Cell) -> Bool in
+        
+        return (cell.state == .dead) && (self.getAliveNeighbordForCell(at:  cell.position).count == 3)
+    }
+    
+    /// If a living cell has more than three living neighbors,
+    /// it dies (overpopulation).
+    lazy var isOverpupulationCondition = { (cell: Cell) -> Bool in
+        
+        return (cell.state == .alive) && (self.getAliveNeighbordForCell(at:  cell.position).count > 3)
     }
 }
 

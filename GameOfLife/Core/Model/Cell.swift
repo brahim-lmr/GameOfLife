@@ -10,6 +10,15 @@ import Foundation
 enum State {
     case alive
     case dead
+    
+    mutating func toggle() {
+        switch self {
+        case .alive:
+            self = .dead
+        case .dead:
+            self = .alive
+        }
+    }
 }
 
 struct Cell: Equatable {
