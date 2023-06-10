@@ -254,4 +254,46 @@ final class GameOfLifeTests: XCTestCase {
 
         sut.printGrid()
     }
+    
+    func test_cellWithTwoLivedNeighbours_lives() {
+        
+        // GIVEN
+        sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
+        sut.changeStateOfCellAt(position: (x:0, y: 4), to: .alive)
+        sut.changeStateOfCellAt(position: (x:1, y: 4), to: .alive)
+        sut.changeStateOfCellAt(position: (x:2, y: 5), to: .alive)
+
+        sut.printGrid()
+
+        // WHEN
+        sut.computeNextGeneration()
+
+        let cell = sut.getCell(at: (x: 1, y: 4))
+
+        // THEN
+        XCTAssertEqual(cell?.state, .alive)
+
+        sut.printGrid()
+    }
+    
+    func test_cellWithThreeLivedNeighbours_lives() {
+        
+        // GIVEN
+        sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
+        sut.changeStateOfCellAt(position: (x:0, y: 4), to: .alive)
+        sut.changeStateOfCellAt(position: (x:0, y: 5), to: .alive)
+        sut.changeStateOfCellAt(position: (x:1, y: 4), to: .alive)
+
+        sut.printGrid()
+
+        // WHEN
+        sut.computeNextGeneration()
+
+        let cell = sut.getCell(at: (x: 1, y: 4))
+
+        // THEN
+        XCTAssertEqual(cell?.state, .alive)
+
+        sut.printGrid()
+    }
 }
