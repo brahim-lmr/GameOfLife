@@ -41,4 +41,17 @@ final class GameOfLifeTests: XCTestCase {
         XCTAssertFalse(sut.isValid(position3))
         XCTAssertFalse(sut.isValid(position4))
     }
+    
+    func test_positionShouldReturnCell() {
+        // GIVEN
+        let aCell = Cell(x: 1, y: 3)
+        let position: Position = (x:1, y: 3)
+        
+        // WHEN
+        let cell = sut.getCell(at: position)
+       
+        // THEN
+        XCTAssertNotNil(cell)
+        XCTAssertEqual(aCell, cell)
+    }
 }

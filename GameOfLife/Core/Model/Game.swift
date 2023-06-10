@@ -29,6 +29,15 @@ final class Game {
         &&
         position.y < numberOfColums
     }
+    
+    func getCell(at position: Position) -> Cell? {
+        guard isValid(position) else { return nil }
+        
+        let x = Int(position.x)
+        let y = Int(position.y)
+        
+        return grid[x][y]
+    }
 }
 
 extension Game {
