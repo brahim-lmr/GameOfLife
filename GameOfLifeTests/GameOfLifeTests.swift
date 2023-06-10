@@ -140,4 +140,49 @@ final class GameOfLifeTests: XCTestCase {
         // THEN
         XCTAssertEqual(cells.count, .zero)
     }
+    
+    func test_getLivingNeighboursForCell_ShouldBeZeroInEmptyGameGrid() {
+
+        // GIVEN
+        let position: Position = (x:2, y: 3)
+        
+        let aliveCells = sut.getAliveNeighbordForCell(at: position)
+        // THEN
+        XCTAssertEqual(aliveCells.count, 0)
+        
+    }
+    
+    func test_foundOneLivingNeighbours() {
+        
+        // GIVEN
+        
+        sut.changeStateOfCellAt(position: (x:1, y: 2), to: .alive)
+        
+        sut.printGrid()
+        
+        let position: Position = (x:2, y: 2)
+        let aliveCells = sut.getAliveNeighbordForCell(at: position)
+
+        // THEN
+        XCTAssertEqual(aliveCells.count, 1)
+        
+    }
+    
+    func test_foundTwoLivingNeighbours() {
+        
+        // GIVEN
+        
+        sut.changeStateOfCellAt(position: (x:2, y: 1), to: .alive)
+        sut.changeStateOfCellAt(position: (x:2, y: 3), to: .alive)
+        sut.changeStateOfCellAt(position: (x:0, y: 1), to: .alive)
+
+        sut.printGrid()
+        
+        let position: Position = (x:2, y: 2)
+        let aliveCells = sut.getAliveNeighbordForCell(at: position)
+
+        // THEN
+        XCTAssertEqual(aliveCells.count, 2)
+        
+    }
 }

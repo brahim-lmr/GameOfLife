@@ -67,6 +67,11 @@ final class Game {
             .flatMap { $0 }
             .filter { areNeighbours(rhd: $0, lhd: cell) }
     }
+    
+    func getAliveNeighbordForCell(at position: Position) -> [Cell] {
+        getNeighborsForCell(at: position)
+            .filter{ $0.state == .alive }
+    }
 }
 
 extension Game {
