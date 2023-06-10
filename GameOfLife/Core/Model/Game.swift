@@ -72,6 +72,21 @@ final class Game {
         getNeighborsForCell(at: position)
             .filter{ $0.state == .alive }
     }
+    
+    func computeNextGeneration() {
+        _ = grid
+            .flatMap { $0 }
+            .filter { cell in
+                // 1. If a dead cell has exactly three living neighbors,
+                // it becomes alive (reproduction).
+                (cell.state == .dead)
+                &&
+                (getAliveNeighbordForCell(at:  cell.position).count == 3)
+            }
+            .map { cell in
+                grid[cell.x][cell.y].state = .alive
+            }
+    }
 }
 
 extension Game {

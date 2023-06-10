@@ -19,6 +19,10 @@ struct Cell: Equatable {
     
     var state: State = .dead
     
+    var position: Position {
+        (x: x, y: y)
+    }
+    
     static func ==(lhs: Cell, rhs: Cell) -> Bool {
         return lhs.x == rhs.x && lhs.y == rhs.y
     }

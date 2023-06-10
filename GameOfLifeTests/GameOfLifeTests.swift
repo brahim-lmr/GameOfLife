@@ -185,4 +185,22 @@ final class GameOfLifeTests: XCTestCase {
         XCTAssertEqual(aliveCells.count, 2)
         
     }
+    
+    func test_deadCellWithThreeNeighbours_getsAlive() {
+        
+        sut.changeStateOfCellAt(position: (x:0, y: 3), to: .alive)
+        sut.changeStateOfCellAt(position: (x:0, y: 4), to: .alive)
+        sut.changeStateOfCellAt(position: (x:0, y: 5), to: .alive)
+        sut.changeStateOfCellAt(position: (x:1, y: 4), to: .dead)
+        
+        sut.printGrid()
+        
+        sut.computeNextGeneration()
+        
+        let state = sut.getCell(at: (x: 1, y: 4))?.state
+        
+        XCTAssertEqual(state, .alive)
+        
+        sut.printGrid()
+    }
 }
