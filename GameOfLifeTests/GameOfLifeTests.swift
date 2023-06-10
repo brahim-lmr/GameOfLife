@@ -54,4 +54,18 @@ final class GameOfLifeTests: XCTestCase {
         XCTAssertNotNil(cell)
         XCTAssertEqual(aCell, cell)
     }
+    
+    func test_stateOfCellShouldBeChanged() {
+        // GIVEN
+        var cell1 = Cell(x: 1, y: 2, state: .alive)
+        var cell2 = Cell(x: 1, y: 2, state: .dead)
+
+        // WHEN
+        cell1.switchState()
+        cell2.switchState()
+
+        // THEN
+        XCTAssertEqual(cell1.state, .dead)
+        XCTAssertEqual(cell2.state, .alive)
+    }
 }
