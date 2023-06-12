@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum State {
+enum CellState {
     case alive
     case dead
     
@@ -21,12 +21,12 @@ enum State {
     }
 }
 
-struct Cell: Equatable {
+struct Cell: Hashable {
     
     let x: Int
     let y: Int
     
-    var state: State = .dead
+    var state: CellState = .dead
     
     var position: Position {
         (x: x, y: y)

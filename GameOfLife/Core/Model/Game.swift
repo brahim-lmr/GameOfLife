@@ -7,16 +7,16 @@
 
 import Foundation
 
-fileprivate typealias Row = [Cell]
-fileprivate typealias Grid = [Row]
+typealias Row = [Cell]
+typealias Grid = [Row]
 typealias Position = (x: Int, y: Int)
 
-final class Game {
+final class Game: ObservableObject {
     
-    private var numberOfRows: Int
-    private var numberOfColums: Int
+    var numberOfRows: Int
+    var numberOfColums: Int
     
-    private var grid = Grid()
+    @Published var grid = Grid()
     
     init(numberOfRows: Int, numberOfColums: Int) {
         self.numberOfRows = numberOfRows
@@ -38,7 +38,7 @@ final class Game {
     
     func changeStateOfCellAt(
         position: Position,
-        to state: State
+        to state: CellState
     ) {
         guard isValid(position) else { return }
         
@@ -88,19 +88,17 @@ final class Game {
     
     /// If a dead cell has exactly three living neighbors,
     /// it becomes alive (reproduction).
-    lazy var isReproductionCondition = { (cell: Cell) -> Bool in
+    private lazy var isReproductionCondition = { (cell: Cell) -> Bool in
         
         return (cell.state == .dead)
         &&
-        (
-            self.getAliveNeighbordForCell(at:  cell.position).count == 3
-        )
+        self.getAliveNeighbordForCell(at:  cell.position).count == 3
     }
     
     /// If a living cell has more than three living neighbors, it dies (overpopulation).
     /// Or
     /// If a living cell has fewer than two living neighbors, it dies (underpopulation).
-    lazy var isOverpupulationOrUnderpopulationCondition = { (cell: Cell) -> Bool in
+    private lazy var isOverpupulationOrUnderpopulationCondition = { (cell: Cell) -> Bool in
         
         return (cell.state == .alive)
         &&
