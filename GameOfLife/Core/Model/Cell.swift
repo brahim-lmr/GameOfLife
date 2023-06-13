@@ -32,6 +32,10 @@ struct Cell: Hashable {
         (x: x, y: y)
     }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(x*y)
+    }
+    
     static func ==(lhs: Cell, rhs: Cell) -> Bool {
         return lhs.x == rhs.x && lhs.y == rhs.y
     }
