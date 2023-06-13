@@ -14,7 +14,7 @@ enum Constant {
 
 struct ContentView: View {
     
-    @StateObject private var game = Game(numberOfRows: 15, numberOfColums: 10)
+    @StateObject private var game = Game(numberOfRows: 10, numberOfColums: 10)
     
     @State private var cancellable: Cancellable?
     
@@ -117,7 +117,7 @@ struct ContentView: View {
     }
 
     private func initializeGame() {
-        for _ in 0...75 {
+        for _ in 0...50 {
             let x = getXRandomLocation()
             let y = getYRandomLocation()
             
