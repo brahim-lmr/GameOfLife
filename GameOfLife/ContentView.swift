@@ -64,6 +64,18 @@ struct ContentView: View {
             .buttonBorderShape(.automatic)
             .controlSize(.large)
             
+            Button(action: {
+                stopTheGame()
+            }) {
+                Text("Stop")
+                    .frame(maxWidth: .infinity)
+                    .font(.headline)
+            }
+            .padding(.horizontal, Constant.horizontalInset)
+            .tint(.blue)
+            .buttonStyle(.bordered)
+            .buttonBorderShape(.automatic)
+            .controlSize(.large)
         }
         .onAppear {
             initializeGame()
@@ -112,6 +124,9 @@ struct ContentView: View {
             }
     }
     
+    private func stopTheGame() {
+        cancellable?.cancel()
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
