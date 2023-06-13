@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 enum Constant {
     static let horizontalInset: CGFloat = 16.0
@@ -14,6 +15,8 @@ enum Constant {
 struct ContentView: View {
     
     @StateObject private var game = Game(numberOfRows: 15, numberOfColums: 10)
+    
+    @State private var cancellable: Cancellable?
     
     var body: some View {
         VStack {
@@ -49,6 +52,7 @@ struct ContentView: View {
             .padding(.horizontal, Constant.horizontalInset)
             
             Button(action: {
+                launchTheGame()
             }) {
                 Text("LAUNCH THE GAME")
                     .frame(maxWidth: .infinity)
@@ -97,6 +101,15 @@ struct ContentView: View {
     
     private func getYRandomLocation() -> Int {
         return Int(arc4random()) % game.numberOfColums
+    }
+    
+    private func launchTheGame() {
+        cancellable = Timer.publish(every: 2, on: .main, in: .default)
+            .autoconnect()
+            .subscribe(on: DispatchQueue.main)
+            .sink { _ in
+                game.computeNextGeneration()
+            }
     }
     
 }
