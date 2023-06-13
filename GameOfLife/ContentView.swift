@@ -59,6 +59,10 @@ struct ContentView: View {
             .buttonStyle(.borderedProminent)
             .buttonBorderShape(.automatic)
             .controlSize(.large)
+            
+        }
+        .onAppear {
+            initializeGame()
         }
         
     }
@@ -75,6 +79,26 @@ struct ContentView: View {
             return .clear
         }
     }
+    
+    private func initializeGame() {
+        for _ in 0...75 {
+            let x = getXRandomLocation()
+            let y = getYRandomLocation()
+            
+            game.grid[x][y]
+                .state
+                .toggle()
+        }
+    }
+    
+    private func getXRandomLocation() -> Int {
+        return Int(arc4random()) % game.numberOfRows
+    }
+    
+    private func getYRandomLocation() -> Int {
+        return Int(arc4random()) % game.numberOfColums
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
