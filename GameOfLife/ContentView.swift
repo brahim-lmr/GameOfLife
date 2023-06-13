@@ -19,63 +19,83 @@ struct ContentView: View {
     @State private var cancellable: Cancellable?
     
     var body: some View {
-        VStack {
-            
-            Text("GAME OF LIFE")
-                .font(.largeTitle)
-                .foregroundColor(.blue)
-                .padding(Constant.horizontalInset)
-            
-            GeometryReader { geometry in
-                VStack(spacing: .zero) {
-                    ForEach(game.grid, id: \.self) { row in
-                        HStack(spacing: .zero) {
-                            ForEach(row, id: \.self) { cell in
-                                Rectangle()
-                                    .fill(fillColorForCell(state: cell.state))
-                                    .frame(
-                                        width: calculateCellWidth(in: geometry),
-                                        height: calculateCellWidth(in: geometry)
-                                    )
-                                    .border(.gray.opacity(0.5), width: 1)
-                                    .onTapGesture {
-                                        game.grid[cell.x][cell.y]
-                                            .state
-                                            .toggle()
-                                    }
+        NavigationView {
+            VStack {
+                
+                Text("GAME OF LIFE")
+                    .font(.largeTitle)
+                    .foregroundColor(.blue)
+                    .padding(Constant.horizontalInset)
+                
+                GeometryReader { geometry in
+                    VStack(spacing: .zero) {
+                        ForEach(game.grid, id: \.self) { row in
+                            HStack(spacing: .zero) {
+                                ForEach(row, id: \.self) { cell in
+                                    Rectangle()
+                                        .fill(fillColorForCell(state: cell.state))
+                                        .frame(
+                                            width: calculateCellWidth(in: geometry),
+                                            height: calculateCellWidth(in: geometry)
+                                        )
+                                        .border(.gray.opacity(0.5), width: 1)
+                                        .onTapGesture {
+                                            game.grid[cell.x][cell.y]
+                                                .state
+                                                .toggle()
+                                        }
+                                }
                             }
                         }
                     }
+                    .border(
+                        .gray.opacity(0.5),
+                        width: 2
+                    )
                 }
-                .border(.gray.opacity(0.5), width: 2)
+                .padding(
+                    .horizontal,
+                    Constant.horizontalInset
+                )
+                
+                Button(action: {
+                    launchTheGame()
+                }) {
+                    Text("LAUNCH THE GAME")
+                        .frame(maxWidth: .infinity)
+                        .font(.headline)
+                }
+                .padding(
+                    .horizontal,
+                    Constant.horizontalInset
+                )
+                .tint(.blue)
+                .buttonStyle(.borderedProminent)
+                .buttonBorderShape(.automatic)
+                .controlSize(.large)
+                
+                Button(action: {
+                    stopTheGame()
+                }) {
+                    Text("Stop")
+                        .frame(maxWidth: .infinity)
+                        .font(.headline)
+                }
+                .padding(
+                    .horizontal,
+                    Constant.horizontalInset
+                )
+                .tint(.blue)
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.automatic)
+                .controlSize(.large)
             }
-            .padding(.horizontal, Constant.horizontalInset)
-            
-            Button(action: {
-                launchTheGame()
-            }) {
-                Text("LAUNCH THE GAME")
-                    .frame(maxWidth: .infinity)
-                    .font(.headline)
+            .toolbar {
+                Button("Reset Game") {
+                    stopTheGame()
+                    initializeGame()
+                }
             }
-            .padding(.horizontal, Constant.horizontalInset)
-            .tint(.blue)
-            .buttonStyle(.borderedProminent)
-            .buttonBorderShape(.automatic)
-            .controlSize(.large)
-            
-            Button(action: {
-                stopTheGame()
-            }) {
-                Text("Stop")
-                    .frame(maxWidth: .infinity)
-                    .font(.headline)
-            }
-            .padding(.horizontal, Constant.horizontalInset)
-            .tint(.blue)
-            .buttonStyle(.bordered)
-            .buttonBorderShape(.automatic)
-            .controlSize(.large)
         }
         .onAppear {
             initializeGame()
@@ -95,7 +115,7 @@ struct ContentView: View {
             return .clear
         }
     }
-    
+
     private func initializeGame() {
         for _ in 0...75 {
             let x = getXRandomLocation()
@@ -106,7 +126,7 @@ struct ContentView: View {
                 .toggle()
         }
     }
-    
+
     private func getXRandomLocation() -> Int {
         return Int(arc4random()) % game.numberOfRows
     }
@@ -116,14 +136,18 @@ struct ContentView: View {
     }
     
     private func launchTheGame() {
-        cancellable = Timer.publish(every: 2, on: .main, in: .default)
-            .autoconnect()
-            .subscribe(on: DispatchQueue.main)
-            .sink { _ in
-                game.computeNextGeneration()
-            }
+        cancellable = Timer.publish(
+            every: 2,
+            on: .main,
+            in: .default
+        )
+        .autoconnect()
+        .subscribe(on: DispatchQueue.main)
+        .sink { _ in
+            game.computeNextGeneration()
+        }
     }
-    
+
     private func stopTheGame() {
         cancellable?.cancel()
     }
